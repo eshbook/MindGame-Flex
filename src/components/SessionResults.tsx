@@ -57,7 +57,7 @@ export default function SessionResults({ onFinish }: Props) {
         </div>
         
         <h1 className="text-3xl font-bold mb-2 text-center">
-          {isNewPersonalBest ? 'New Personal Best!' : t('results.greatJob')}
+          {isNewPersonalBest ? t('results.newBest') : t('results.greatJob')}
         </h1>
         <p className="text-[var(--muted-foreground)] mb-12 text-center">{t('home.sessionComplete')}</p>
 

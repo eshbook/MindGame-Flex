@@ -20,7 +20,7 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
 
   const generateProblem = useCallback(() => {
     // Dynamic difficulty based on starting difficulty + current streak
-    const currentDiff = difficulty === 'Easy' ? 1 : difficulty === 'Medium' ? 2 : difficulty === 'Hard' ? 3 : difficulty === 'Expert' ? 4 : 5;
+    const currentDiff = difficulty === 'Beginner' ? 1 : difficulty === 'Intermediate' ? 2 : difficulty === 'Advanced' ? 3 : difficulty === 'Expert' ? 4 : 5;
     const streakBonus = Math.floor(streak / 5);
     const level = Math.min(5, currentDiff + streakBonus);
 

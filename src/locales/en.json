@@ -61,6 +61,7 @@
   "results": {
     "title": "Session Complete",
     "greatJob": "Great job today!",
+    "newBest": "New Personal Best!",
     "todaysScore": "Today's Brain Score",
     "streakExtended": "Streak Extended! 🔥",
     "finish": "Back to Home"
@@ -70,6 +71,23 @@
     "longestStreak": "Longest Streak",
     "performanceHistory": "Performance History",
     "noData": "Complete a session to see stats"
+  },
+  "practice": {
+    "practiceMode": "Practice Mode",
+    "practice": "Practice",
+    "selectLevel": "Select Level",
+    "startWith": "Start With...",
+    "practiceComplete": "Practice Complete",
+    "level": "Level",
+    "done": "Done",
+    "playAgain": "Play Again"
+  },
+  "levels": {
+    "Beginner": "Beginner",
+    "Intermediate": "Intermediate",
+    "Advanced": "Advanced",
+    "Expert": "Expert",
+    "Guru": "Guru"
   },
   "settings": {
     "title": "Settings",

@@ -12,18 +12,18 @@ interface Props {
 
 const WORDS = {
   en: {
-    Easy: ['CAT', 'DOG', 'SUN', 'BIRD', 'FISH', 'TREE', 'BOOK', 'DOOR'],
-    Medium: ['HOUSE', 'WATER', 'APPLE', 'CHAIR', 'TABLE', 'SMILE', 'BRAIN'],
-    Hard: ['PUZZLE', 'GARDEN', 'PLANET', 'ROCKET', 'WONDER', 'BREEZE'],
+    Beginner: ['CAT', 'DOG', 'SUN', 'BIRD', 'FISH', 'TREE', 'BOOK', 'DOOR'],
+    Intermediate: ['HOUSE', 'WATER', 'APPLE', 'CHAIR', 'TABLE', 'SMILE', 'BRAIN'],
+    Advanced: ['PUZZLE', 'GARDEN', 'PLANET', 'ROCKET', 'WONDER', 'BREEZE'],
     Expert: ['SYMPHONY', 'ELEPHANT', 'UMBRELLA', 'HOSPITAL', 'CHAMPION', 'DINOSAUR'],
-    Master: ['PHILOSOPHY', 'METROPOLIS', 'CHANDELIER', 'MICROSCOPE', 'ASTRONAUT']
+    Guru: ['PHILOSOPHY', 'METROPOLIS', 'CHANDELIER', 'MICROSCOPE', 'ASTRONAUT']
   },
   ar: {
-    Easy: ['قطة', 'كلب', 'شمس', 'طير', 'سمك', 'شجرة', 'كتاب', 'باب'],
-    Medium: ['منزل', 'مياه', 'تفاحة', 'كرسي', 'طاولة', 'ابتسامة', 'دماغ'],
-    Hard: ['لغز', 'حديقة', 'كوكب', 'صاروخ', 'عجائب', 'نسيم'],
+    Beginner: ['قطة', 'كلب', 'شمس', 'طير', 'سمك', 'شجرة', 'كتاب', 'باب'],
+    Intermediate: ['منزل', 'مياه', 'تفاحة', 'كرسي', 'طاولة', 'ابتسامة', 'دماغ'],
+    Advanced: ['لغز', 'حديقة', 'كوكب', 'صاروخ', 'عجائب', 'نسيم'],
     Expert: ['سيمفونية', 'فيل', 'مظلة', 'مستشفى', 'بطل', 'ديناصور'],
-    Master: ['فلسفة', 'مدينة', 'ثريا', 'مجهر', 'رائد']
+    Guru: ['فلسفة', 'مدينة', 'ثريا', 'مجهر', 'رائد']
   }
 };
 

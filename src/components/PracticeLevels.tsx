@@ -26,7 +26,7 @@ export default function PracticeLevels({ onNavigate, onSelectGame }: Props) {
         <button onClick={() => onNavigate('home')} className="p-2 -ml-2 rounded-full hover:bg-[var(--card)] transition-colors">
           <ArrowLeft className="w-6 h-6 rtl:rotate-180" />
         </button>
-        <h1 className="text-2xl font-bold">Practice</h1>
+        <h1 className="text-2xl font-bold">{t('practice.practice')}</h1>
       </header>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-12">
@@ -38,7 +38,7 @@ export default function PracticeLevels({ onNavigate, onSelectGame }: Props) {
               </div>
               <div>
                 <h2 className="text-xl font-bold capitalize">{t(`games.${game.id}.name`, game.id)}</h2>
-                <p className="text-sm text-[var(--muted-foreground)]">Select Level</p>
+                <p className="text-sm text-[var(--muted-foreground)]">{t('practice.selectLevel')}</p>
               </div>
             </div>
             
@@ -49,7 +49,7 @@ export default function PracticeLevels({ onNavigate, onSelectGame }: Props) {
                   onClick={() => onSelectGame(game.id, diff)}
                   className="px-4 py-2 rounded-xl border border-[var(--muted)] hover:bg-[var(--primary)] hover:border-[var(--primary)] hover:text-[var(--primary-foreground)] font-medium transition-colors"
                 >
-                  {diff}
+                  {t(`levels.${diff}`)}
                 </button>
               ))}
             </div>

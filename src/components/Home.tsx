@@ -113,7 +113,7 @@ export default function Home({ onNavigate, onStartSession }: Props) {
           onClick={() => onNavigate('practice_levels')}
           className="w-full py-4 rounded-2xl bg-[var(--card)] text-[var(--foreground)] font-bold border border-[var(--muted)] hover:bg-[var(--muted)] transition-colors flex items-center justify-center gap-2"
         >
-          Practice Mode
+          {t('practice.practiceMode')}
         </motion.button>
       </div>
 
@@ -126,7 +126,7 @@ export default function Home({ onNavigate, onStartSession }: Props) {
             className="absolute inset-0 z-50 bg-[var(--background)] p-6 flex flex-col"
           >
             <header className="flex justify-between items-center mb-8 pt-4">
-              <h2 className="text-2xl font-bold">{selectedGameForSession ? 'Select Level' : 'Start With...'}</h2>
+              <h2 className="text-2xl font-bold">{selectedGameForSession ? t('practice.selectLevel') : t('practice.startWith')}</h2>
               <button onClick={() => {
                 if (selectedGameForSession) setSelectedGameForSession(null);
                 else setShowGameSelector(false);
@@ -162,7 +162,7 @@ export default function Home({ onNavigate, onStartSession }: Props) {
                   onClick={() => onStartSession(selectedGameForSession, diff)}
                   className="bg-[var(--card)] rounded-2xl p-4 border border-[var(--muted)] hover:bg-[var(--primary)] hover:border-[var(--primary)] hover:text-[var(--primary-foreground)] font-bold transition-colors"
                 >
-                  {diff}
+                  {t(`levels.${diff}`)}
                 </motion.button>
               ))}
             </div>

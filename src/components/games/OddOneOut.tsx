@@ -19,7 +19,7 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'game_over'>('playing');
 
-  const gridCount = difficulty === 'Easy' ? 9 : (difficulty === 'Medium' || difficulty === 'Hard') ? 16 : 25;
+  const gridCount = difficulty === 'Beginner' ? 9 : (difficulty === 'Intermediate' || difficulty === 'Advanced') ? 16 : 25;
   
   const generateGrid = useCallback(() => {
     const ShapeComponent = SHAPES[Math.floor(Math.random() * SHAPES.length)];
@@ -27,8 +27,8 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
     
     // Choose difference type based on difficulty
     const types = ['color', 'rotation'];
-    if (difficulty !== 'Easy') types.push('size');
-    if (difficulty === 'Expert' || difficulty === 'Master') types.push('shape');
+    if (difficulty !== 'Beginner') types.push('size');
+    if (difficulty === 'Expert' || difficulty === 'Guru') types.push('shape');
 
     const diffType = types[Math.floor(Math.random() * types.length)];
     
@@ -44,13 +44,13 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
       if (isTarget) {
         if (diffType === 'color') {
            const otherColors = COLORS.filter(c => c !== baseColor);
-           color = (difficulty === 'Hard' || difficulty === 'Expert' || difficulty === 'Master') ? `${baseColor} opacity-70` : otherColors[Math.floor(Math.random() * otherColors.length)];
+           color = (difficulty === 'Advanced' || difficulty === 'Expert' || difficulty === 'Guru') ? `${baseColor} opacity-70` : otherColors[Math.floor(Math.random() * otherColors.length)];
         }
         if (diffType === 'rotation') {
-          rotation = (difficulty === 'Hard' || difficulty === 'Expert' || difficulty === 'Master') ? 15 : 45;
+          rotation = (difficulty === 'Advanced' || difficulty === 'Expert' || difficulty === 'Guru') ? 15 : 45;
         }
         if (diffType === 'size') {
-          scale = (difficulty === 'Hard' || difficulty === 'Expert' || difficulty === 'Master') ? 0.9 : 0.8;
+          scale = (difficulty === 'Advanced' || difficulty === 'Expert' || difficulty === 'Guru') ? 0.9 : 0.8;
         }
         if (diffType === 'shape') {
            const otherShapes = SHAPES.filter(s => s !== ShapeComponent);
@@ -74,7 +74,7 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
   // Setup round timer
   useEffect(() => {
     if (gameState === 'playing') {
-      const baseTime = difficulty === 'Easy' ? 8000 : difficulty === 'Medium' ? 6000 : 4000;
+      const baseTime = difficulty === 'Beginner' ? 8000 : difficulty === 'Intermediate' ? 6000 : 4000;
       const roundTime = Math.max(1500, baseTime - (round * 200)); // Gets faster
       setTimeLeft(roundTime);
       
@@ -140,7 +140,7 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
         <div className="w-full h-2 bg-[var(--muted)] rounded-full mb-8 overflow-hidden">
           <div 
             className="h-full bg-primary transition-all duration-100 ease-linear"
-            style={{ width: `${(timeLeft / (Math.max(1500, (difficulty === 'Easy' ? 8000 : 6000) - (round * 200)))) * 100}%` }}
+            style={{ width: `${(timeLeft / (Math.max(1500, (difficulty === 'Beginner' ? 8000 : 6000) - (round * 200)))) * 100}%` }}
           />
         </div>
       )}

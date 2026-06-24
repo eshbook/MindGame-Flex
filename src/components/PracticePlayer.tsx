@@ -58,7 +58,7 @@ export default function PracticePlayer({ config, onFinish }: Props) {
               </div>
               <h1 className="text-3xl font-bold mb-4">{t(`games.${config.gameId}.name`, config.gameId)}</h1>
               <div className="bg-[var(--muted)] px-4 py-2 rounded-full text-sm font-medium text-[var(--foreground)] mb-8 uppercase tracking-wide">
-                Level: {config.difficulty}
+                {t('practice.level')}: {t(`levels.${config.difficulty}`)}
               </div>
               
               <button
@@ -92,11 +92,11 @@ export default function PracticePlayer({ config, onFinish }: Props) {
               className="flex flex-col items-center text-center w-full max-w-sm"
             >
               <Star className="w-16 h-16 text-brand-yellow mb-6" />
-              <h2 className="text-3xl font-bold mb-2">Practice Complete</h2>
-              <p className="text-[var(--muted-foreground)] mb-12">Level: {config.difficulty}</p>
+              <h2 className="text-3xl font-bold mb-2">{t('practice.practiceComplete')}</h2>
+              <p className="text-[var(--muted-foreground)] mb-12">{t('practice.level')}: {t(`levels.${config.difficulty}`)}</p>
               
               <div className="bg-[var(--card)] w-full rounded-3xl p-6 border border-[var(--muted)] mb-8 flex flex-col items-center">
-                <span className="text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">Score</span>
+                <span className="text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">{t('games.score')}</span>
                 <span className="text-6xl font-bold text-[var(--foreground)]">
                   {score}
                 </span>
@@ -107,13 +107,13 @@ export default function PracticePlayer({ config, onFinish }: Props) {
                   onClick={onFinish}
                   className="flex-1 py-4 rounded-2xl bg-[var(--card)] border border-[var(--muted)] font-bold hover:bg-[var(--muted)] transition-colors"
                 >
-                  Done
+                  {t('practice.done')}
                 </button>
                 <button
                   onClick={() => setGameState('intro')}
                   className="flex-1 py-4 rounded-2xl bg-primary text-[var(--primary-foreground)] font-bold hover:opacity-90 transition-opacity"
                 >
-                  Play Again
+                  {t('practice.playAgain')}
                 </button>
               </div>
             </motion.div>

@@ -61,6 +61,7 @@
   "results": {
     "title": "اكتملت الجلسة",
     "greatJob": "عمل رائع اليوم!",
+    "newBest": "رقم قياسي جديد!",
     "todaysScore": "درجة اليوم",
     "streakExtended": "استمرت السلسلة! 🔥",
     "finish": "العودة للرئيسية"
@@ -70,6 +71,23 @@
     "longestStreak": "أطول سلسلة",
     "performanceHistory": "تاريخ الأداء",
     "noData": "أكمل جلسة لرؤية الإحصائيات"
+  },
+  "practice": {
+    "practiceMode": "وضع التدريب",
+    "practice": "تدريب",
+    "selectLevel": "اختر المستوى",
+    "startWith": "ابدأ بـ...",
+    "practiceComplete": "اكتمل التدريب",
+    "level": "المستوى",
+    "done": "تم",
+    "playAgain": "العب مرة أخرى"
+  },
+  "levels": {
+    "Beginner": "مبتدئ",
+    "Intermediate": "متوسط",
+    "Advanced": "متقدم",
+    "Expert": "خبير",
+    "Guru": "معلم"
   },
   "settings": {
     "title": "الإعدادات",

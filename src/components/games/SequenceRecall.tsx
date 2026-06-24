@@ -24,9 +24,9 @@ export default function SequenceRecall({ difficulty, onComplete }: Props) {
   const [round, setRound] = useState(1);
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'player_turn' | 'game_over'>('idle');
 
-  const gridCount = (difficulty === 'Easy' || difficulty === 'Medium') ? 4 : (difficulty === 'Hard' || difficulty === 'Expert') ? 9 : 16;
-  const initialSequenceLength = difficulty === 'Easy' ? 3 : difficulty === 'Medium' ? 4 : difficulty === 'Hard' ? 5 : difficulty === 'Expert' ? 6 : 7;
-  const playSpeed = difficulty === 'Hard' ? 400 : difficulty === 'Expert' ? 300 : difficulty === 'Master' ? 250 : 600;
+  const gridCount = (difficulty === 'Beginner' || difficulty === 'Intermediate') ? 4 : (difficulty === 'Advanced' || difficulty === 'Expert') ? 9 : 16;
+  const initialSequenceLength = difficulty === 'Beginner' ? 3 : difficulty === 'Intermediate' ? 4 : difficulty === 'Advanced' ? 5 : difficulty === 'Expert' ? 6 : 7;
+  const playSpeed = difficulty === 'Advanced' ? 400 : difficulty === 'Expert' ? 300 : difficulty === 'Guru' ? 250 : 600;
 
   const startRound = useCallback(() => {
     const newLength = initialSequenceLength + round - 1;
