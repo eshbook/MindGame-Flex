@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-blue: #003049;
+  --color-brand-red: #d62828;
+  --color-brand-orange: #f77f00;
+  --color-brand-yellow: #fcbf49;
+  --color-brand-beige: #eae2b7;
+}
+
+@layer base {
+  :root {
+    --background: #eae2b7;
+    --foreground: #003049;
+    --card: #fdfbf0;
+    --card-foreground: #003049;
+    --primary: #f77f00;
+    --primary-foreground: #003049;
+    --muted: #dcd2a3;
+    --muted-foreground: #003049;
+  }
+
+  .dark {
+    --background: #eae2b7;
+    --foreground: #003049;
+    --card: #fdfbf0;
+    --card-foreground: #003049;
+    --primary: #f77f00;
+    --primary-foreground: #003049;
+    --muted: #dcd2a3;
+    --muted-foreground: #003049;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}

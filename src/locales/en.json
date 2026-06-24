@@ -1,0 +1,82 @@
+{
+  "onboarding": {
+    "welcome": "Welcome to MindFlex",
+    "description": "Your daily mind gym. 5 minutes a day to keep your brain sharp.",
+    "selectLanguage": "Select Language",
+    "start": "Get Started",
+    "slide1": {
+      "title": "Train Daily",
+      "desc": "Complete 4 short mini-games each day."
+    },
+    "slide2": {
+      "title": "Track Progress",
+      "desc": "See your Brain Score improve over time."
+    },
+    "slide3": {
+      "title": "Stay Sharp",
+      "desc": "Build a streak and maintain cognitive fitness."
+    }
+  },
+  "home": {
+    "greeting": "Ready for today?",
+    "startSession": "Start Today's Session",
+    "currentStreak": "Current Streak",
+    "days": "Days",
+    "brainScore": "Brain Score",
+    "memory": "Memory",
+    "logic": "Logic",
+    "speed": "Speed",
+    "language": "Language",
+    "sessionComplete": "You've completed today's session!"
+  },
+  "nav": {
+    "home": "Home",
+    "stats": "Stats",
+    "settings": "Settings"
+  },
+  "games": {
+    "memory": {
+      "name": "Sequence Recall",
+      "desc": "Watch the pattern and repeat it back. One mistake ends the round."
+    },
+    "logic": {
+      "name": "Odd One Out",
+      "desc": "Find the shape that is subtly different before time runs out."
+    },
+    "speed": {
+      "name": "Quick Math",
+      "desc": "Solve simple math problems as fast as possible."
+    },
+    "language": {
+      "name": "Word Dash",
+      "desc": "Unscramble the letters to form a word."
+    },
+    "start": "Start",
+    "next": "Next Game",
+    "gameOver": "Game Over!",
+    "score": "Score",
+    "correct": "Correct!",
+    "wrong": "Wrong!"
+  },
+  "results": {
+    "title": "Session Complete",
+    "greatJob": "Great job today!",
+    "todaysScore": "Today's Brain Score",
+    "streakExtended": "Streak Extended! 🔥",
+    "finish": "Back to Home"
+  },
+  "stats": {
+    "title": "Your Stats",
+    "longestStreak": "Longest Streak",
+    "performanceHistory": "Performance History",
+    "noData": "Complete a session to see stats"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "darkMode": "Dark Mode",
+    "dangerZone": "Danger Zone",
+    "resetProgress": "Reset All Progress",
+    "resetConfirm": "Are you sure? This cannot be undone."
+  }
+}
