@@ -14,18 +14,18 @@ interface Props {
 
 const WORDS = {
   en: {
-    Beginner: ['CAT', 'DOG', 'SUN', 'BIRD', 'FISH', 'TREE', 'BOOK', 'DOOR'],
-    Intermediate: ['HOUSE', 'WATER', 'APPLE', 'CHAIR', 'TABLE', 'SMILE', 'BRAIN'],
-    Advanced: ['PUZZLE', 'GARDEN', 'PLANET', 'ROCKET', 'WONDER', 'BREEZE'],
-    Expert: ['SYMPHONY', 'ELEPHANT', 'UMBRELLA', 'HOSPITAL', 'CHAMPION', 'DINOSAUR'],
-    Guru: ['PHILOSOPHY', 'METROPOLIS', 'CHANDELIER', 'MICROSCOPE', 'ASTRONAUT']
+    Beginner: ['CAT', 'DOG', 'SUN', 'BIRD', 'FISH', 'TREE', 'BOOK', 'DOOR', 'CAR', 'HAT', 'BOX', 'CUP', 'PEN'],
+    Intermediate: ['HOUSE', 'WATER', 'APPLE', 'CHAIR', 'TABLE', 'SMILE', 'BRAIN', 'CLOCK', 'TRAIN', 'GLASS', 'PLANT', 'RIVER'],
+    Advanced: ['PUZZLE', 'GARDEN', 'PLANET', 'ROCKET', 'WONDER', 'BREEZE', 'ISLAND', 'FOREST', 'NATURE', 'SUMMER', 'WINTER', 'GUITAR'],
+    Expert: ['SYMPHONY', 'ELEPHANT', 'UMBRELLA', 'HOSPITAL', 'CHAMPION', 'DINOSAUR', 'VOLCANO', 'PYRAMID', 'UNIVERSE', 'KANGAROO'],
+    Guru: ['PHILOSOPHY', 'METROPOLIS', 'CHANDELIER', 'MICROSCOPE', 'ASTRONAUT', 'LABORATORY', 'TECHNOLOGY', 'RENAISSANCE', 'ARCHITECTURE']
   },
   ar: {
-    Beginner: ['قطة', 'كلب', 'شمس', 'طير', 'سمك', 'شجرة', 'كتاب', 'باب'],
-    Intermediate: ['منزل', 'مياه', 'تفاحة', 'كرسي', 'طاولة', 'ابتسامة', 'دماغ'],
-    Advanced: ['لغز', 'حديقة', 'كوكب', 'صاروخ', 'عجائب', 'نسيم'],
-    Expert: ['سيمفونية', 'فيل', 'مظلة', 'مستشفى', 'بطل', 'ديناصور'],
-    Guru: ['فلسفة', 'مدينة', 'ثريا', 'مجهر', 'رائد']
+    Beginner: ['قطة', 'كلب', 'شمس', 'طير', 'سمك', 'شجرة', 'كتاب', 'باب', 'سيارة', 'قبعة', 'صندوق', 'كوب', 'قلم'],
+    Intermediate: ['منزل', 'مياه', 'تفاحة', 'كرسي', 'طاولة', 'ابتسامة', 'دماغ', 'ساعة', 'قطار', 'زجاج', 'نبات', 'نهر'],
+    Advanced: ['لغز', 'حديقة', 'كوكب', 'صاروخ', 'عجائب', 'نسيم', 'جزيرة', 'غابة', 'طبيعة', 'صيف', 'شتاء', 'جيتار'],
+    Expert: ['سيمفونية', 'فيل', 'مظلة', 'مستشفى', 'بطل', 'ديناصور', 'بركان', 'هرم', 'كون', 'كنغر'],
+    Guru: ['فلسفة', 'مدينة', 'ثريا', 'مجهر', 'رائد', 'مختبر', 'تكنولوجيا', 'نهضة', 'هندسة']
   }
 };
 

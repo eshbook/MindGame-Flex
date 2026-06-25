@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Triangle, Square, Circle, Star, Hexagon, HelpCircle } from 'lucide-react';
+import { Triangle, Square, Circle, Star, Hexagon, HelpCircle, Diamond, Heart, Cloud, Moon, Sun, Shield, Octagon, Pentagon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { DifficultyTier } from '../../store';
@@ -12,8 +12,8 @@ interface Props {
   onComplete: (score: number) => void;
 }
 
-const SHAPES = [Triangle, Square, Circle, Star, Hexagon];
-const COLORS = ['text-brand-red', 'text-brand-blue', 'text-brand-orange', 'text-brand-yellow', 'text-foreground'];
+const SHAPES = [Triangle, Square, Circle, Star, Hexagon, Diamond, Heart, Cloud, Moon, Sun, Shield, Octagon, Pentagon];
+const COLORS = ['text-brand-red', 'text-brand-blue', 'text-brand-orange', 'text-brand-yellow', 'text-foreground', 'text-green-500', 'text-purple-500', 'text-pink-500', 'text-cyan-500', 'text-rose-500', 'text-indigo-500', 'text-teal-500'];
 
 export default function OddOneOut({ difficulty, onComplete }: Props) {
   const { t } = useTranslation();

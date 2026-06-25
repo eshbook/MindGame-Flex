@@ -16,7 +16,12 @@ const COLORS = [
   { id: 'blue', hex: '#3B82F6' },
   { id: 'green', hex: '#10B981' },
   { id: 'yellow', hex: '#F59E0B' },
-  { id: 'purple', hex: '#8B5CF6' }
+  { id: 'purple', hex: '#8B5CF6' },
+  { id: 'orange', hex: '#F97316' },
+  { id: 'pink', hex: '#EC4899' },
+  { id: 'cyan', hex: '#06B6D4' },
+  { id: 'brown', hex: '#A16207' },
+  { id: 'gray', hex: '#6B7280' }
 ];
 
 export default function StroopTest({ difficulty, onComplete }: Props) {
@@ -41,7 +46,7 @@ export default function StroopTest({ difficulty, onComplete }: Props) {
   
   const generateProblem = useCallback(() => {
     // Determine how many colors to use based on difficulty
-    const numColors = difficulty === 'Beginner' ? 3 : difficulty === 'Intermediate' ? 4 : 5;
+    const numColors = difficulty === 'Beginner' ? 3 : difficulty === 'Intermediate' ? 4 : difficulty === 'Advanced' ? 6 : difficulty === 'Expert' ? 8 : 10;
     const activeColors = COLORS.slice(0, numColors);
     
     // Choose word text
@@ -111,7 +116,7 @@ export default function StroopTest({ difficulty, onComplete }: Props) {
     }
   };
 
-  const numColors = difficulty === 'Beginner' ? 3 : difficulty === 'Intermediate' ? 4 : 5;
+  const numColors = difficulty === 'Beginner' ? 3 : difficulty === 'Intermediate' ? 4 : difficulty === 'Advanced' ? 6 : difficulty === 'Expert' ? 8 : 10;
   const activeColors = COLORS.slice(0, numColors);
 
   return (
