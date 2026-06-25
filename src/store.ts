@@ -35,6 +35,7 @@ export interface Streak {
 }
 
 export interface Profile {
+  name: string;
   language: 'en' | 'ar';
   createdAt: string;
   darkMode: boolean;
@@ -54,6 +55,7 @@ interface AppState {
   toggleDarkMode: () => void;
   toggleSound: () => void;
   updateReminders: (enabled: boolean, time?: string) => void;
+  updateName: (name: string) => void;
   addSession: (session: Session) => void;
   resetProgress: () => void;
   checkStreak: () => void;
@@ -97,6 +99,10 @@ export const useAppStore = create<AppState>()(
 
       toggleSound: () => set((state) => ({
         profile: state.profile ? { ...state.profile, soundEnabled: !state.profile.soundEnabled } : null
+      })),
+
+      updateName: (name) => set((state) => ({
+        profile: state.profile ? { ...state.profile, name } : null
       })),
 
       updateReminders: (remindersEnabled, reminderTime) => set((state) => ({
@@ -162,6 +168,9 @@ export const useAppStore = create<AppState>()(
         if (newStreak.current >= 7) addAchievement('7_day_streak');
         if (newScores.memory >= 90) addAchievement('memory_master');
         if (session.games.some(g => g.score >= 100)) addAchievement('flawless_round');
+        
+        const totalGamesPlayed = state.sessions.reduce((acc, curr) => acc + curr.games.length, 0) + session.games.length;
+        if (totalGamesPlayed >= 100) addAchievement('100_games');
 
         return {
           sessions: [...state.sessions, session],

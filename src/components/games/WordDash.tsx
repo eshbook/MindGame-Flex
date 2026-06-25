@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, RotateCcw } from 'lucide-react';
+import { Check, RotateCcw, HelpCircle } from 'lucide-react';
 
 import { DifficultyTier } from '../../store';
 import { audio } from '../../utils/audio';
+import { HelpModal } from './HelpModal';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -35,6 +36,15 @@ export default function WordDash({ difficulty, onComplete }: Props) {
   const [timeLeft, setTimeLeft] = useState(90); // 90 seconds
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'game_over'>('playing');
+  const [showHelp, setShowHelp] = useState(false);
+
+  useEffect(() => {
+    const hasSeenHelp = localStorage.getItem('helpSeen_language');
+    if (!hasSeenHelp) {
+      setShowHelp(true);
+      localStorage.setItem('helpSeen_language', 'true');
+    }
+  }, []);
   
   const generateWord = useCallback(() => {
     const list = WORDS[lang][difficulty];
@@ -106,6 +116,20 @@ export default function WordDash({ difficulty, onComplete }: Props) {
 
   return (
     <div className="flex-1 flex flex-col items-center p-6 relative w-full">
+      <button 
+        onClick={() => setShowHelp(true)}
+        className="absolute top-4 right-4 p-2 rounded-full text-[var(--muted-foreground)] hover:bg-[var(--card)] hover:text-[var(--foreground)] transition-colors z-10"
+      >
+        <HelpCircle className="w-6 h-6" />
+      </button>
+
+      <HelpModal 
+        isOpen={showHelp} 
+        onClose={() => setShowHelp(false)} 
+        title={t('games.language.name', 'Word Dash')}
+        description={t('games.language.desc', 'Unscramble the letters to form a word.')}
+      />
+
       <div className="w-full flex justify-between items-center mb-12">
         <div className="text-[var(--muted-foreground)] font-bold text-lg">
           {t('games.score')}: <span className="text-primary">{score}</span>

@@ -12,7 +12,8 @@ interface Props {
 const ACHIEVEMENTS = [
   { id: '7_day_streak', title: '7-Day Streak', icon: Flame, color: 'text-orange-500', bg: 'bg-orange-500/10' },
   { id: 'memory_master', title: 'Memory Master', icon: Medal, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-  { id: 'flawless_round', title: 'Flawless Round', icon: Star, color: 'text-yellow-500', bg: 'bg-yellow-500/10' }
+  { id: 'flawless_round', title: 'Flawless Round', icon: Star, color: 'text-yellow-500', bg: 'bg-yellow-500/10' },
+  { id: '100_games', title: '100 Games Played', icon: Award, color: 'text-purple-500', bg: 'bg-purple-500/10' }
 ];
 
 export default function Stats({ onNavigate }: Props) {

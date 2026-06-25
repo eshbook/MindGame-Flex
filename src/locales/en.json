@@ -29,7 +29,9 @@
     "language": "Language",
     "focus": "Focus",
     "spatial": "Spatial",
-    "sessionComplete": "You've completed today's session!"
+    "sessionComplete": "You've completed today's session!",
+    "dailyGoal": "Daily Goal",
+    "games": "games"
   },
   "nav": {
     "home": "Home",
@@ -77,7 +79,9 @@
     "newBest": "New Personal Best!",
     "todaysScore": "Today's Brain Score",
     "streakExtended": "Streak Extended! 🔥",
-    "finish": "Back to Home"
+    "finish": "Back to Home",
+    "share": "Share Results",
+    "copied": "Results copied to clipboard!"
   },
   "stats": {
     "title": "Your Stats",
@@ -112,6 +116,7 @@
     "sound": "Sound Effects",
     "reminders": "Daily Reminders",
     "reminderTime": "Time",
+    "namePlaceholder": "Your Name",
     "dangerZone": "Danger Zone",
     "resetProgress": "Reset All Progress",
     "resetConfirm": "Are you sure? This cannot be undone."
@@ -119,6 +124,10 @@
   "reminders": {
     "title": "Time to Train!",
     "body": "Your daily brain-training session is ready."
+  },
+  "help": {
+    "title": "How to Play",
+    "gotIt": "Got it!"
   },
   "colors": {
     "red": "RED",

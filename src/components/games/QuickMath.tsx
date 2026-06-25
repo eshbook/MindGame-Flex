@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, X } from 'lucide-react';
+import { Check, X, HelpCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { DifficultyTier } from '../../store';
 import { audio } from '../../utils/audio';
+import { HelpModal } from './HelpModal';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -17,9 +18,18 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'game_over'>('playing');
   const [streak, setStreak] = useState(0);
+  const [showHelp, setShowHelp] = useState(false);
   
   // Feedback animation state
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+
+  useEffect(() => {
+    const hasSeenHelp = localStorage.getItem('helpSeen_speed');
+    if (!hasSeenHelp) {
+      setShowHelp(true);
+      localStorage.setItem('helpSeen_speed', 'true');
+    }
+  }, []);
 
   const generateProblem = useCallback(() => {
     // Dynamic difficulty based on starting difficulty + current streak
@@ -119,6 +129,20 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
 
   return (
     <div className="flex-1 flex flex-col items-center p-6 relative w-full">
+      <button 
+        onClick={() => setShowHelp(true)}
+        className="absolute top-4 right-4 p-2 rounded-full text-[var(--muted-foreground)] hover:bg-[var(--card)] hover:text-[var(--foreground)] transition-colors z-10"
+      >
+        <HelpCircle className="w-6 h-6" />
+      </button>
+
+      <HelpModal 
+        isOpen={showHelp} 
+        onClose={() => setShowHelp(false)} 
+        title={t('games.speed.name', 'Quick Math')}
+        description={t('games.speed.desc', 'Solve the math problems as quickly as possible.')}
+      />
+
       <div className="w-full flex justify-between items-center mb-12">
         <div className="text-[var(--muted-foreground)] font-bold text-lg">
           {t('games.score')}: <span className="text-primary">{score}</span>

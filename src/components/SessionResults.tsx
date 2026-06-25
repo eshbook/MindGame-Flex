@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../store';
 import { motion } from 'motion/react';
-import { Check, Flame, Trophy } from 'lucide-react';
+import { Check, Flame, Trophy, Share2, Copy } from 'lucide-react';
 import ElegantConfetti from './ElegantConfetti';
 import { useEffect, useState, useMemo } from 'react';
 
@@ -23,6 +23,30 @@ export default function SessionResults({ onFinish }: Props) {
   }, [sessions, latestSession]);
 
   const [showConfetti, setShowConfetti] = useState(isNewPersonalBest);
+
+  const handleShare = async () => {
+    if (!latestSession) return;
+    
+    const text = `🧠 Brain Training Complete!\nScore: ${latestSession.brainScore}\nStreak: ${streak.current} days 🔥\n\nPlay now: ${window.location.origin}`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: t('results.title', 'Session Complete'),
+          text: text,
+        });
+      } catch (err) {
+        console.error('Error sharing:', err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert(t('results.copied', 'Results copied to clipboard!'));
+      } catch (err) {
+        console.error('Failed to copy!', err);
+      }
+    }
+  };
 
   useEffect(() => {
     if (showConfetti) {
@@ -89,12 +113,22 @@ export default function SessionResults({ onFinish }: Props) {
           </motion.div>
         )}
 
-        <button
-          onClick={onFinish}
-          className="w-full max-w-xs py-4 rounded-2xl bg-primary text-[var(--primary-foreground)] font-bold text-lg hover:opacity-90 transition-opacity mt-auto"
-        >
-          {t('results.finish')}
-        </button>
+        <div className="w-full max-w-xs flex flex-col gap-3 mt-auto">
+          <button
+            onClick={handleShare}
+            className="w-full py-4 rounded-2xl bg-[var(--card)] border border-[var(--muted)] text-[var(--foreground)] font-bold text-lg hover:border-primary transition-colors flex items-center justify-center gap-2"
+          >
+            {navigator.share ? <Share2 className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+            {t('results.share', 'Share Results')}
+          </button>
+          
+          <button
+            onClick={onFinish}
+            className="w-full py-4 rounded-2xl bg-primary text-[var(--primary-foreground)] font-bold text-lg hover:opacity-90 transition-opacity"
+          >
+            {t('results.finish')}
+          </button>
+        </div>
       </motion.div>
     </div>
   );

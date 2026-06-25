@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { HelpCircle } from 'lucide-react';
 import { DifficultyTier } from '../../store';
 import { useTranslation } from 'react-i18next';
 import { audio } from '../../utils/audio';
+import { HelpModal } from './HelpModal';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -14,12 +16,21 @@ export default function MirrorImage({ difficulty, onComplete }: Props) {
   const [round, setRound] = useState(1);
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'game_over'>('playing');
+  const [showHelp, setShowHelp] = useState(false);
   
   const [gridSize, setGridSize] = useState(3);
   const [pattern, setPattern] = useState<boolean[]>([]);
   const [userPattern, setUserPattern] = useState<boolean[]>([]);
   
   const [timeLeft, setTimeLeft] = useState(100);
+
+  useEffect(() => {
+    const hasSeenHelp = localStorage.getItem('helpSeen_spatial');
+    if (!hasSeenHelp) {
+      setShowHelp(true);
+      localStorage.setItem('helpSeen_spatial', 'true');
+    }
+  }, []);
 
   const generatePattern = useCallback(() => {
     let size = 3;
@@ -118,8 +129,23 @@ export default function MirrorImage({ difficulty, onComplete }: Props) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-full">
-      <div className="w-full flex justify-between items-center mb-4">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full relative">
+      <div className="w-full max-w-2xl mx-auto flex flex-col items-center h-full">
+        <button 
+          onClick={() => setShowHelp(true)}
+          className="absolute top-4 right-4 p-2 rounded-full text-[var(--muted-foreground)] hover:bg-[var(--card)] hover:text-[var(--foreground)] transition-colors z-10"
+        >
+          <HelpCircle className="w-6 h-6" />
+        </button>
+
+        <HelpModal 
+          isOpen={showHelp} 
+          onClose={() => setShowHelp(false)} 
+          title={t('games.spatial.name', 'Mirror Image')}
+          description={t('games.spatial.desc', 'Recreate the pattern perfectly mirrored on the other side.')}
+        />
+
+        <div className="w-full flex justify-between items-center mb-4">
         <div className="text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wider">{t('games.round')} {round}</div>
         <div className="text-xl font-bold">{score}</div>
       </div>
@@ -193,6 +219,7 @@ export default function MirrorImage({ difficulty, onComplete }: Props) {
           </button>
         </div>
       )}
+      </div>
     </div>
   );
 }

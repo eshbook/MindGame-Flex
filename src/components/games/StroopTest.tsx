@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { HelpCircle } from 'lucide-react';
 import { DifficultyTier } from '../../store';
 import { useTranslation } from 'react-i18next';
 import { audio } from '../../utils/audio';
+import { HelpModal } from './HelpModal';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -22,11 +24,20 @@ export default function StroopTest({ difficulty, onComplete }: Props) {
   const [round, setRound] = useState(1);
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'game_over'>('playing');
+  const [showHelp, setShowHelp] = useState(false);
   
   const [currentWord, setCurrentWord] = useState(COLORS[0]);
   const [currentColor, setCurrentColor] = useState(COLORS[1]);
   
   const [timeLeft, setTimeLeft] = useState(100); // Percentage
+
+  useEffect(() => {
+    const hasSeenHelp = localStorage.getItem('helpSeen_focus');
+    if (!hasSeenHelp) {
+      setShowHelp(true);
+      localStorage.setItem('helpSeen_focus', 'true');
+    }
+  }, []);
   
   const generateProblem = useCallback(() => {
     // Determine how many colors to use based on difficulty
@@ -104,8 +115,23 @@ export default function StroopTest({ difficulty, onComplete }: Props) {
   const activeColors = COLORS.slice(0, numColors);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto">
-      <div className="w-full flex justify-between items-center mb-6">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full relative">
+      <div className="w-full max-w-md mx-auto flex flex-col items-center">
+        <button 
+          onClick={() => setShowHelp(true)}
+          className="absolute top-4 right-4 p-2 rounded-full text-[var(--muted-foreground)] hover:bg-[var(--card)] hover:text-[var(--foreground)] transition-colors z-10"
+        >
+          <HelpCircle className="w-6 h-6" />
+        </button>
+
+        <HelpModal 
+          isOpen={showHelp} 
+          onClose={() => setShowHelp(false)} 
+          title={t('games.focus.name', 'Stroop Test')}
+          description={t('games.focus.desc', 'Select the COLOR of the text, not the word.')}
+        />
+
+        <div className="w-full flex justify-between items-center mb-6">
         <div className="text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wider">{t('games.round')} {round}</div>
         <div className="text-xl font-bold">{score}</div>
       </div>
@@ -159,6 +185,7 @@ export default function StroopTest({ difficulty, onComplete }: Props) {
             {t(`colors.${c.id}`)}
           </motion.button>
         ))}
+      </div>
       </div>
     </div>
   );

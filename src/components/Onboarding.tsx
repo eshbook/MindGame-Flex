@@ -17,6 +17,7 @@ export default function Onboarding({ onComplete }: Props) {
     i18n.changeLanguage(lang);
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     setProfile({
+      name: '',
       language: lang,
       createdAt: new Date().toISOString(),
       darkMode: false,

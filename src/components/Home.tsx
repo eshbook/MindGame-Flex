@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../store';
 import { Screen } from '../App';
-import { Settings as SettingsIcon, BarChart3, Brain, Shapes, Hash, Type, Play, X, Eye, LayoutGrid } from 'lucide-react';
+import { Settings as SettingsIcon, BarChart3, Brain, Shapes, Hash, Type, Play, X, Eye, LayoutGrid, Target } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ResponsiveContainer, PolarGrid, PolarAngleAxis, Radar, RadarChart } from 'recharts';
+import { isToday } from 'date-fns';
 
 interface Props {
   onNavigate: (screen: Screen) => void;
@@ -24,9 +25,18 @@ const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced', 'Expert', 'Guru'];
 
 export default function Home({ onNavigate, onStartSession }: Props) {
   const { t } = useTranslation();
-  const { streak, cognitiveScores } = useAppStore();
+  const { streak, cognitiveScores, sessions, profile } = useAppStore();
   const [showGameSelector, setShowGameSelector] = useState(false);
   const [selectedGameForSession, setSelectedGameForSession] = useState<string | null>(null);
+
+  const completedGamesToday = useMemo(() => {
+    return sessions
+      .filter(s => isToday(new Date(s.date)))
+      .reduce((total, session) => total + session.games.length, 0);
+  }, [sessions]);
+  
+  const dailyGoal = 5;
+  const progressPercent = Math.min(100, Math.round((completedGamesToday / dailyGoal) * 100));
 
   const data = [
     { subject: t('home.memory'), A: cognitiveScores.memory || 10, fullMark: 100 },
@@ -41,8 +51,10 @@ export default function Home({ onNavigate, onStartSession }: Props) {
     <div className="flex flex-col h-full p-6">
       <header className="flex justify-between items-center mb-8 pt-4">
         <div>
-          <h1 className="text-2xl font-bold">{t('home.greeting')}</h1>
-          <p className="text-[var(--muted-foreground)]">MindFlex</p>
+          <h1 className="text-2xl font-bold">
+            {profile?.name ? `👋 ${profile.name}` : 'MindFlex'}
+          </h1>
+          <p className="text-[var(--muted-foreground)]">{t('home.greeting')}</p>
         </div>
         <div className="flex gap-4">
           <button onClick={() => onNavigate('stats')} className="p-2 bg-[var(--card)] rounded-full text-[var(--muted-foreground)] hover:text-primary transition-colors">
@@ -74,6 +86,33 @@ export default function Home({ onNavigate, onStartSession }: Props) {
           <span className="text-sm font-medium text-[var(--muted-foreground)]">{t('home.brainScore')}</span>
         </motion.div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+        className="w-full bg-[var(--card)] p-5 rounded-3xl border border-[var(--muted)] flex flex-col gap-3 mb-8"
+      >
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2 text-[var(--foreground)] font-bold">
+            <Target className="w-5 h-5 text-primary" />
+            <span>{t('home.dailyGoal', 'Daily Goal')}</span>
+          </div>
+          <span className="text-sm font-medium text-[var(--muted-foreground)]">
+            {completedGamesToday} / {dailyGoal} {t('home.games', 'games')}
+          </span>
+        </div>
+        <div className="w-full h-3 bg-[var(--muted)] rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercent}%` }}
+            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+            className="h-full bg-primary rounded-full relative"
+          >
+            <div className="absolute inset-0 bg-white/20" style={{ backgroundImage: 'linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent)', backgroundSize: '1rem 1rem' }} />
+          </motion.div>
+        </div>
+      </motion.div>
 
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}

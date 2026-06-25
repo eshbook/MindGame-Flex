@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Triangle, Square, Circle, Star, Hexagon } from 'lucide-react';
+import { Triangle, Square, Circle, Star, Hexagon, HelpCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { DifficultyTier } from '../../store';
 import { audio } from '../../utils/audio';
+import { HelpModal } from './HelpModal';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -21,6 +22,15 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
   const [misses, setMisses] = useState(0);
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'game_over'>('playing');
+  const [showHelp, setShowHelp] = useState(false);
+
+  useEffect(() => {
+    const hasSeenHelp = localStorage.getItem('helpSeen_logic');
+    if (!hasSeenHelp) {
+      setShowHelp(true);
+      localStorage.setItem('helpSeen_logic', 'true');
+    }
+  }, []);
 
   const gridCount = difficulty === 'Beginner' ? 9 : (difficulty === 'Intermediate' || difficulty === 'Advanced') ? 16 : 25;
   
@@ -135,7 +145,21 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full relative">
+      <button 
+        onClick={() => setShowHelp(true)}
+        className="absolute top-4 right-4 p-2 rounded-full text-[var(--muted-foreground)] hover:bg-[var(--card)] hover:text-[var(--foreground)] transition-colors"
+      >
+        <HelpCircle className="w-6 h-6" />
+      </button>
+
+      <HelpModal 
+        isOpen={showHelp} 
+        onClose={() => setShowHelp(false)} 
+        title={t('games.logic.name', 'Odd One Out')}
+        description={t('games.logic.desc', 'Find the shape that is different from the rest.')}
+      />
+
       <div className="flex justify-between w-full mb-8 text-[var(--muted-foreground)] font-medium">
         <span>{t('games.round')} {round}</span>
         <span className="text-red-500">{t('games.misses')}: {misses}/3</span>

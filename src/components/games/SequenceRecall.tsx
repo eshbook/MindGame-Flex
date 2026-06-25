@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { HelpCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { DifficultyTier } from '../../store';
 import { audio } from '../../utils/audio';
+import { HelpModal } from './HelpModal';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -18,12 +21,22 @@ const COLORS = [
 ];
 
 export default function SequenceRecall({ difficulty, onComplete }: Props) {
+  const { t } = useTranslation();
   const [sequence, setSequence] = useState<number[]>([]);
   const [playerSequence, setPlayerSequence] = useState<number[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeTile, setActiveTile] = useState<number | null>(null);
   const [round, setRound] = useState(1);
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'player_turn' | 'game_over'>('idle');
+  const [showHelp, setShowHelp] = useState(false);
+
+  useEffect(() => {
+    const hasSeenHelp = localStorage.getItem('helpSeen_memory');
+    if (!hasSeenHelp) {
+      setShowHelp(true);
+      localStorage.setItem('helpSeen_memory', 'true');
+    }
+  }, []);
 
   const gridCount = (difficulty === 'Beginner' || difficulty === 'Intermediate') ? 4 : (difficulty === 'Advanced' || difficulty === 'Expert') ? 9 : 16;
   const initialSequenceLength = difficulty === 'Beginner' ? 3 : difficulty === 'Intermediate' ? 4 : difficulty === 'Advanced' ? 5 : difficulty === 'Expert' ? 6 : 7;
@@ -105,7 +118,21 @@ export default function SequenceRecall({ difficulty, onComplete }: Props) {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 relative w-full">
+      <button 
+        onClick={() => setShowHelp(true)}
+        className="absolute top-4 right-4 p-2 rounded-full text-[var(--muted-foreground)] hover:bg-[var(--card)] hover:text-[var(--foreground)] transition-colors"
+      >
+        <HelpCircle className="w-6 h-6" />
+      </button>
+
+      <HelpModal 
+        isOpen={showHelp} 
+        onClose={() => setShowHelp(false)} 
+        title={t('games.memory.name', 'Sequence Recall')}
+        description={t('games.memory.desc', 'Memorize the pattern of flashing tiles and repeat it back. The sequence gets longer each round!')}
+      />
+
       <div className="mb-8 h-8 flex items-center justify-center">
         {gameState === 'playing' && <span className="text-[var(--primary)] font-bold text-lg animate-pulse">Watch the pattern...</span>}
         {gameState === 'player_turn' && <span className="text-[var(--foreground)] font-bold text-lg">Your turn!</span>}
