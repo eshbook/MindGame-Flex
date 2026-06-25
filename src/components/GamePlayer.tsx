@@ -4,10 +4,13 @@ import { useAppStore, GameResult } from '../store';
 import { Screen } from '../App';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
+import { audio } from '../utils/audio';
 import SequenceRecall from './games/SequenceRecall';
 import OddOneOut from './games/OddOneOut';
 import QuickMath from './games/QuickMath';
 import WordDash from './games/WordDash';
+import StroopTest from './games/StroopTest';
+import MirrorImage from './games/MirrorImage';
 
 interface Props {
   firstGameId?: string;
@@ -31,6 +34,8 @@ export default function GamePlayer({ firstGameId, startingDifficulty, onComplete
       { id: 'logic', component: OddOneOut, key: 'logic', prevAvg: cognitiveScores.logic },
       { id: 'speed', component: QuickMath, key: 'speed', prevAvg: cognitiveScores.speed },
       { id: 'language', component: WordDash, key: 'language', prevAvg: cognitiveScores.language },
+      { id: 'focus', component: StroopTest, key: 'focus', prevAvg: cognitiveScores.focus },
+      { id: 'spatial', component: MirrorImage, key: 'spatial', prevAvg: cognitiveScores.spatial },
     ];
     
     if (!firstGameId) return allGames;
@@ -69,10 +74,12 @@ export default function GamePlayer({ firstGameId, startingDifficulty, onComplete
     setResults(newResults);
 
     if (gameIndex < games.length - 1) {
+      audio.playLevelUp();
       setGameIndex(gameIndex + 1);
       setShowInstructions(true);
     } else {
       // Session Complete
+      audio.playLevelUp();
       const brainScore = Math.round(newResults.reduce((acc, curr) => acc + curr.score, 0) / newResults.length);
       addSession({
         date: new Date().toISOString(),

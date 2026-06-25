@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../store';
 import { Screen } from '../App';
-import { ArrowLeft, Globe, Moon, Sun, Trash2 } from 'lucide-react';
+import { ArrowLeft, Globe, Moon, Sun, Trash2, Volume2, VolumeX, Bell, BellOff } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 interface Props {
   onNavigate: (screen: Screen) => void;
@@ -9,7 +10,14 @@ interface Props {
 
 export default function Settings({ onNavigate }: Props) {
   const { t } = useTranslation();
-  const { profile, updateLanguage, toggleDarkMode, resetProgress } = useAppStore();
+  const { profile, updateLanguage, toggleDarkMode, toggleSound, updateReminders, resetProgress } = useAppStore();
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
+
+  useEffect(() => {
+    if ('Notification' in window) {
+      setNotificationPermission(Notification.permission);
+    }
+  }, []);
 
   const handleLanguageToggle = () => {
     updateLanguage(profile?.language === 'en' ? 'ar' : 'en');
@@ -56,6 +64,59 @@ export default function Settings({ onNavigate }: Props) {
               <div className={`bg-white w-4 h-4 rounded-full transition-transform ${profile?.darkMode ? 'translate-x-6' : 'translate-x-0'}`} />
             </div>
           </button>
+
+          <button
+            onClick={toggleSound}
+            className="w-full bg-[var(--card)] border border-[var(--muted)] p-4 rounded-2xl flex items-center justify-between hover:border-primary transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              {profile?.soundEnabled ? <Volume2 className="w-6 h-6 text-primary" /> : <VolumeX className="w-6 h-6 text-primary" />}
+              <span className="font-medium">{t('settings.sound', 'Sound Effects')}</span>
+            </div>
+            <div className={`w-12 h-6 rounded-full p-1 transition-colors ${profile?.soundEnabled ? 'bg-primary' : 'bg-[var(--muted-foreground)]'}`}>
+              <div className={`bg-white w-4 h-4 rounded-full transition-transform ${profile?.soundEnabled ? 'translate-x-6' : 'translate-x-0'}`} />
+            </div>
+          </button>
+
+          <div className="w-full bg-[var(--card)] border border-[var(--muted)] p-4 rounded-2xl flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {profile?.remindersEnabled ? <Bell className="w-6 h-6 text-primary" /> : <BellOff className="w-6 h-6 text-primary" />}
+                <span className="font-medium">{t('settings.reminders', 'Daily Reminders')}</span>
+              </div>
+              <button
+                onClick={async () => {
+                  let permission = notificationPermission;
+                  if (!profile?.remindersEnabled && permission === 'default' && 'Notification' in window) {
+                    permission = await Notification.requestPermission();
+                    setNotificationPermission(permission);
+                  }
+                  
+                  if (permission === 'denied' && !profile?.remindersEnabled) {
+                    alert('Please enable notifications in your browser settings.');
+                    return;
+                  }
+                  
+                  updateReminders(!profile?.remindersEnabled, profile?.reminderTime || '09:00');
+                }}
+                className={`w-12 h-6 rounded-full p-1 transition-colors ${profile?.remindersEnabled ? 'bg-primary' : 'bg-[var(--muted-foreground)]'}`}
+              >
+                <div className={`bg-white w-4 h-4 rounded-full transition-transform ${profile?.remindersEnabled ? 'translate-x-6' : 'translate-x-0'}`} />
+              </button>
+            </div>
+            
+            {profile?.remindersEnabled && (
+              <div className="flex items-center justify-between pt-2 border-t border-[var(--muted)]">
+                <span className="text-sm text-[var(--muted-foreground)]">{t('settings.reminderTime', 'Time')}</span>
+                <input
+                  type="time"
+                  value={profile?.reminderTime || '09:00'}
+                  onChange={(e) => updateReminders(true, e.target.value)}
+                  className="bg-[var(--muted)] text-[var(--foreground)] px-3 py-1.5 rounded-lg border-none focus:ring-2 focus:ring-primary outline-none"
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="pt-8">

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Check, RotateCcw } from 'lucide-react';
 
 import { DifficultyTier } from '../../store';
+import { audio } from '../../utils/audio';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -28,7 +29,7 @@ const WORDS = {
 };
 
 export default function WordDash({ difficulty, onComplete }: Props) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const lang = (i18n.language === 'ar' ? 'ar' : 'en') as 'en' | 'ar';
   
   const [timeLeft, setTimeLeft] = useState(90); // 90 seconds
@@ -74,6 +75,7 @@ export default function WordDash({ difficulty, onComplete }: Props) {
     if (selectedIndices.length === currentWord.scrambled.length && gameState === 'playing') {
       const attempt = selectedIndices.map(i => currentWord.scrambled[i]).join('');
       if (attempt === currentWord.original) {
+        audio.playCorrect();
         setScore(s => s + 1);
         setFeedback('correct');
         setTimeout(() => {
@@ -82,6 +84,7 @@ export default function WordDash({ difficulty, onComplete }: Props) {
           setSelectedIndices([]);
         }, 500);
       } else {
+        audio.playIncorrect();
         setFeedback('wrong');
         setTimeout(() => {
           setFeedback(null);
@@ -93,6 +96,7 @@ export default function WordDash({ difficulty, onComplete }: Props) {
 
   const handleSelect = (index: number) => {
     if (gameState !== 'playing' || selectedIndices.includes(index)) return;
+    audio.playTap();
     setSelectedIndices([...selectedIndices, index]);
   };
 
@@ -104,7 +108,7 @@ export default function WordDash({ difficulty, onComplete }: Props) {
     <div className="flex-1 flex flex-col items-center p-6 relative w-full">
       <div className="w-full flex justify-between items-center mb-12">
         <div className="text-[var(--muted-foreground)] font-bold text-lg">
-          Score: <span className="text-primary">{score}</span>
+          {t('games.score')}: <span className="text-primary">{score}</span>
         </div>
         <div className={`text-xl font-bold flex items-center gap-2 ${timeLeft <= 10 ? 'text-red-500 animate-pulse' : ''}`}>
           {timeLeft}s
@@ -167,16 +171,17 @@ export default function WordDash({ difficulty, onComplete }: Props) {
                 className="flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-colors text-[var(--muted-foreground)] hover:bg-[var(--card)] disabled:opacity-50"
               >
                 <RotateCcw className="w-5 h-5" />
-                Reset
+                {t('games.language.reset', 'Reset')}
               </button>
             </motion.div>
           ) : (
              <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="text-3xl font-bold text-primary"
+              className="text-3xl font-bold text-primary flex flex-col items-center gap-4"
             >
-              Time's Up!
+              <div>{t('games.gameOver')}</div>
+              <div className="text-2xl text-foreground">{t('games.score')}: {score}</div>
             </motion.div>
           )}
         </AnimatePresence>

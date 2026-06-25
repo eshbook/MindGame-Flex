@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Triangle, Square, Circle, Star, Hexagon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { DifficultyTier } from '../../store';
+import { audio } from '../../utils/audio';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -13,6 +15,7 @@ const SHAPES = [Triangle, Square, Circle, Star, Hexagon];
 const COLORS = ['text-brand-red', 'text-brand-blue', 'text-brand-orange', 'text-brand-yellow', 'text-foreground'];
 
 export default function OddOneOut({ difficulty, onComplete }: Props) {
+  const { t } = useTranslation();
   const [round, setRound] = useState(1);
   const [timeLeft, setTimeLeft] = useState(0);
   const [misses, setMisses] = useState(0);
@@ -107,6 +110,7 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
   }, [score, onComplete]);
 
   const handleTimeout = useCallback(() => {
+    audio.playIncorrect();
     setMisses(m => {
       const newMisses = m + 1;
       if (newMisses >= 3) {
@@ -122,6 +126,7 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
     if (gameState !== 'playing') return;
     
     if (isTarget) {
+      audio.playCorrect();
       setScore(s => s + 1);
       nextRound();
     } else {
@@ -132,8 +137,8 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 w-full">
       <div className="flex justify-between w-full mb-8 text-[var(--muted-foreground)] font-medium">
-        <span>Round {round}</span>
-        <span className="text-red-500">Misses: {misses}/3</span>
+        <span>{t('games.round')} {round}</span>
+        <span className="text-red-500">{t('games.misses')}: {misses}/3</span>
       </div>
 
       {gameState === 'playing' && (
@@ -146,7 +151,7 @@ export default function OddOneOut({ difficulty, onComplete }: Props) {
       )}
 
       {gameState === 'game_over' && (
-        <div className="text-2xl font-bold text-red-500 mb-8">Game Over!</div>
+        <div className="text-2xl font-bold text-red-500 mb-8">{t('games.gameOver')}</div>
       )}
 
       <div className={`grid gap-4 w-full max-w-[320px] mx-auto ${gridCount === 9 ? 'grid-cols-3' : gridCount === 16 ? 'grid-cols-4' : 'grid-cols-5'}`}>

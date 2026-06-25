@@ -5,6 +5,8 @@ import SequenceRecall from './games/SequenceRecall';
 import OddOneOut from './games/OddOneOut';
 import QuickMath from './games/QuickMath';
 import WordDash from './games/WordDash';
+import StroopTest from './games/StroopTest';
+import MirrorImage from './games/MirrorImage';
 import { DifficultyTier } from '../store';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -24,6 +26,8 @@ export default function PracticePlayer({ config, onFinish }: Props) {
       case 'logic': return OddOneOut;
       case 'speed': return QuickMath;
       case 'language': return WordDash;
+      case 'focus': return StroopTest;
+      case 'spatial': return MirrorImage;
       default: return SequenceRecall;
     }
   }, [config.gameId]);

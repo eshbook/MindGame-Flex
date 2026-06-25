@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { DifficultyTier } from '../../store';
+import { audio } from '../../utils/audio';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -10,6 +12,7 @@ interface Props {
 }
 
 export default function QuickMath({ difficulty, onComplete }: Props) {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(60); // 60 seconds
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'game_over'>('playing');
@@ -82,6 +85,7 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
   useEffect(() => {
     if (gameState === 'playing' && timeLeft <= 0) {
       setGameState('game_over');
+      audio.playIncorrect();
       setTimeout(() => {
          // 100 max score. ~20 correct = 100
          onComplete(Math.min(100, score * 5));
@@ -93,6 +97,7 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
     if (gameState !== 'playing') return;
 
     if (choice === problem.answer) {
+      audio.playCorrect();
       setScore(s => s + 1);
       setStreak(s => s + 1);
       setFeedback('correct');
@@ -101,6 +106,7 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
         setProblem(generateProblem());
       }, 300);
     } else {
+      audio.playIncorrect();
       setStreak(0);
       setFeedback('wrong');
       // Penalize time or score? Just reset streak for now.
@@ -115,7 +121,7 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
     <div className="flex-1 flex flex-col items-center p-6 relative w-full">
       <div className="w-full flex justify-between items-center mb-12">
         <div className="text-[var(--muted-foreground)] font-bold text-lg">
-          Score: <span className="text-primary">{score}</span>
+          {t('games.score')}: <span className="text-primary">{score}</span>
         </div>
         <div className={`text-xl font-bold flex items-center gap-2 ${timeLeft <= 10 ? 'text-red-500 animate-pulse' : ''}`}>
           {timeLeft}s
@@ -153,9 +159,10 @@ export default function QuickMath({ difficulty, onComplete }: Props) {
              <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="text-3xl font-bold text-primary"
+              className="text-3xl font-bold text-primary flex flex-col items-center gap-4"
             >
-              Time's Up!
+              <div>{t('games.gameOver')}</div>
+              <div className="text-2xl text-foreground">{t('games.score')}: {score}</div>
             </motion.div>
           )}
         </AnimatePresence>

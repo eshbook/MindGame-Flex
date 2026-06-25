@@ -22,8 +22,10 @@ export interface CognitiveScores {
   logic: number;
   speed: number;
   language: number;
+  focus: number;
+  spatial: number;
   overall: number;
-  history: { date: string; memory: number; logic: number; speed: number; language: number }[];
+  history: { date: string; memory: number; logic: number; speed: number; language: number; focus: number; spatial: number }[];
 }
 
 export interface Streak {
@@ -36,6 +38,9 @@ export interface Profile {
   language: 'en' | 'ar';
   createdAt: string;
   darkMode: boolean;
+  soundEnabled: boolean;
+  remindersEnabled?: boolean;
+  reminderTime?: string;
 }
 
 interface AppState {
@@ -43,9 +48,12 @@ interface AppState {
   sessions: Session[];
   cognitiveScores: CognitiveScores;
   streak: Streak;
+  unlockedAchievements: { id: string; unlockedAt: string }[];
   setProfile: (profile: Profile) => void;
   updateLanguage: (lang: 'en' | 'ar') => void;
   toggleDarkMode: () => void;
+  toggleSound: () => void;
+  updateReminders: (enabled: boolean, time?: string) => void;
   addSession: (session: Session) => void;
   resetProgress: () => void;
   checkStreak: () => void;
@@ -56,6 +64,8 @@ const initialCognitiveScores: CognitiveScores = {
   logic: 0,
   speed: 0,
   language: 0,
+  focus: 0,
+  spatial: 0,
   overall: 0,
   history: []
 };
@@ -73,6 +83,7 @@ export const useAppStore = create<AppState>()(
       sessions: [],
       cognitiveScores: initialCognitiveScores,
       streak: initialStreak,
+      unlockedAchievements: [],
       
       setProfile: (profile) => set({ profile }),
       
@@ -83,7 +94,15 @@ export const useAppStore = create<AppState>()(
       toggleDarkMode: () => set((state) => ({
         profile: state.profile ? { ...state.profile, darkMode: !state.profile.darkMode } : null
       })),
-      
+
+      toggleSound: () => set((state) => ({
+        profile: state.profile ? { ...state.profile, soundEnabled: !state.profile.soundEnabled } : null
+      })),
+
+      updateReminders: (remindersEnabled, reminderTime) => set((state) => ({
+        profile: state.profile ? { ...state.profile, remindersEnabled, reminderTime: reminderTime !== undefined ? reminderTime : state.profile.reminderTime } : null
+      })),
+
       addSession: (session) => set((state) => {
         const today = startOfDay(new Date()).toISOString();
         let newStreak = { ...state.streak };
@@ -109,6 +128,8 @@ export const useAppStore = create<AppState>()(
           logic: session.games.find(g => g.gameId === 'logic')?.score || 0,
           speed: session.games.find(g => g.gameId === 'speed')?.score || 0,
           language: session.games.find(g => g.gameId === 'language')?.score || 0,
+          focus: session.games.find(g => g.gameId === 'focus')?.score || 0,
+          spatial: session.games.find(g => g.gameId === 'spatial')?.score || 0,
         };
 
         const updatedHistory = [...state.cognitiveScores.history, newHistoryEntry];
@@ -124,14 +145,29 @@ export const useAppStore = create<AppState>()(
           logic: calculateAverage('logic'),
           speed: calculateAverage('speed'),
           language: calculateAverage('language'),
+          focus: calculateAverage('focus'),
+          spatial: calculateAverage('spatial'),
           overall: session.brainScore,
           history: updatedHistory
         };
 
+        // Check for new achievements
+        const newAchievements = [...state.unlockedAchievements];
+        const addAchievement = (id: string) => {
+          if (!newAchievements.find(a => a.id === id)) {
+            newAchievements.push({ id, unlockedAt: new Date().toISOString() });
+          }
+        };
+
+        if (newStreak.current >= 7) addAchievement('7_day_streak');
+        if (newScores.memory >= 90) addAchievement('memory_master');
+        if (session.games.some(g => g.score >= 100)) addAchievement('flawless_round');
+
         return {
           sessions: [...state.sessions, session],
           streak: newStreak,
-          cognitiveScores: newScores
+          cognitiveScores: newScores,
+          unlockedAchievements: newAchievements
         };
       }),
 
@@ -139,6 +175,7 @@ export const useAppStore = create<AppState>()(
         sessions: [],
         cognitiveScores: initialCognitiveScores,
         streak: initialStreak,
+        unlockedAchievements: [],
         profile: state.profile ? { ...state.profile, createdAt: new Date().toISOString() } : null
       })),
 

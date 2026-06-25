@@ -19,7 +19,10 @@ export default function Onboarding({ onComplete }: Props) {
     setProfile({
       language: lang,
       createdAt: new Date().toISOString(),
-      darkMode: false
+      darkMode: false,
+      soundEnabled: true,
+      remindersEnabled: false,
+      reminderTime: '09:00'
     });
     setStep(1);
   };

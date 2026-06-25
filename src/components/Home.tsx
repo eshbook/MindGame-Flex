@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../store';
 import { Screen } from '../App';
-import { Settings as SettingsIcon, BarChart3, Brain, Shapes, Hash, Type, Play, X } from 'lucide-react';
+import { Settings as SettingsIcon, BarChart3, Brain, Shapes, Hash, Type, Play, X, Eye, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ResponsiveContainer, PolarGrid, PolarAngleAxis, Radar, RadarChart } from 'recharts';
 
@@ -16,6 +16,8 @@ const GAMES = [
   { id: 'logic', icon: Shapes, color: 'text-brand-red', bg: 'bg-brand-red/10' },
   { id: 'speed', icon: Hash, color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
   { id: 'language', icon: Type, color: 'text-brand-yellow', bg: 'bg-brand-yellow/10' },
+  { id: 'focus', icon: Eye, color: 'text-purple-500', bg: 'bg-purple-500/10' },
+  { id: 'spatial', icon: LayoutGrid, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
 ];
 
 const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced', 'Expert', 'Guru'];
@@ -31,6 +33,8 @@ export default function Home({ onNavigate, onStartSession }: Props) {
     { subject: t('home.logic'), A: cognitiveScores.logic || 10, fullMark: 100 },
     { subject: t('home.speed'), A: cognitiveScores.speed || 10, fullMark: 100 },
     { subject: t('home.language'), A: cognitiveScores.language || 10, fullMark: 100 },
+    { subject: t('home.focus', 'Focus'), A: cognitiveScores.focus || 10, fullMark: 100 },
+    { subject: t('home.spatial', 'Spatial'), A: cognitiveScores.spatial || 10, fullMark: 100 },
   ];
 
   return (

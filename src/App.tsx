@@ -9,10 +9,12 @@ import Stats from './components/Stats';
 import Settings from './components/Settings';
 import PracticeLevels from './components/PracticeLevels';
 import PracticePlayer from './components/PracticePlayer';
+import { useReminders } from './hooks/useReminders';
 
 export type Screen = 'onboarding' | 'home' | 'game_player' | 'results' | 'stats' | 'settings' | 'practice_levels' | 'practice_player';
 
 export default function App() {
+  useReminders();
   const { i18n } = useTranslation();
   const profile = useAppStore((state) => state.profile);
   const checkStreak = useAppStore((state) => state.checkStreak);
@@ -75,7 +77,11 @@ export default function App() {
       case 'practice_player':
         return <PracticePlayer config={practiceConfig} onFinish={() => setCurrentScreen('practice_levels')} />;
       default:
-        return <Home onNavigate={setCurrentScreen} />;
+        return <Home onNavigate={setCurrentScreen} onStartSession={(firstGameId, difficulty) => {
+          setSessionFirstGame(firstGameId);
+          setSessionDifficulty(difficulty || 'Beginner');
+          setCurrentScreen('game_player');
+        }} />;
     }
   };
 

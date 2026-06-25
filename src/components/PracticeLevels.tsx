@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Screen } from '../App';
-import { ArrowLeft, Brain, Shapes, Hash, Type } from 'lucide-react';
+import { ArrowLeft, Brain, Shapes, Hash, Type, Eye, LayoutGrid } from 'lucide-react';
 import { DifficultyTier } from '../store';
 
 interface Props {
@@ -13,6 +13,8 @@ const GAMES = [
   { id: 'logic', icon: Shapes, color: 'text-brand-red', bg: 'bg-brand-red/10' },
   { id: 'speed', icon: Hash, color: 'text-brand-orange', bg: 'bg-brand-orange/10' },
   { id: 'language', icon: Type, color: 'text-brand-yellow', bg: 'bg-brand-yellow/10' },
+  { id: 'focus', icon: Eye, color: 'text-purple-500', bg: 'bg-purple-500/10' },
+  { id: 'spatial', icon: LayoutGrid, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
 ];
 
 const DIFFICULTIES: DifficultyTier[] = ['Beginner', 'Intermediate', 'Advanced', 'Expert', 'Guru'];

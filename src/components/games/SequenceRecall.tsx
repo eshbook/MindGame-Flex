@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 import { DifficultyTier } from '../../store';
+import { audio } from '../../utils/audio';
 
 interface Props {
   difficulty: DifficultyTier;
@@ -48,13 +49,17 @@ export default function SequenceRecall({ difficulty, onComplete }: Props) {
       let step = 0;
       setIsPlaying(true);
       // Fire first step immediately
-      setActiveTile(sequence[0]);
+      const tileIdx = sequence[0];
+      setActiveTile(tileIdx);
+      if (tileIdx !== undefined) audio.playTone(300 + (tileIdx * 50), 'sine', 0.1);
       setTimeout(() => setActiveTile(null), playSpeed - 100);
       step++;
 
       const interval = setInterval(() => {
         if (step < sequence.length) {
-          setActiveTile(sequence[step]);
+          const tIdx = sequence[step];
+          setActiveTile(tIdx);
+          audio.playTone(300 + (tIdx * 50), 'sine', 0.1);
           setTimeout(() => setActiveTile(null), playSpeed - 100);
           step++;
         } else {
@@ -71,6 +76,7 @@ export default function SequenceRecall({ difficulty, onComplete }: Props) {
   const handleTileClick = (index: number) => {
     if (gameState !== 'player_turn') return;
 
+    audio.playTone(300 + (index * 50), 'sine', 0.1);
     const newPlayerSequence = [...playerSequence, index];
     setPlayerSequence(newPlayerSequence);
     
@@ -82,6 +88,7 @@ export default function SequenceRecall({ difficulty, onComplete }: Props) {
 
     if (!isCorrect) {
       setGameState('game_over');
+      audio.playIncorrect();
       setTimeout(() => {
         // Score calculation: 100 based on expected max round (e.g., 7 rounds = 100)
         const score = Math.min(100, Math.max(0, (round - 1) * 15));
@@ -92,6 +99,7 @@ export default function SequenceRecall({ difficulty, onComplete }: Props) {
 
     if (newPlayerSequence.length === sequence.length) {
       setGameState('idle');
+      audio.playCorrect();
       setRound(r => r + 1);
     }
   };

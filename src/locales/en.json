@@ -27,6 +27,8 @@
     "logic": "Logic",
     "speed": "Speed",
     "language": "Language",
+    "focus": "Focus",
+    "spatial": "Spatial",
     "sessionComplete": "You've completed today's session!"
   },
   "nav": {
@@ -49,14 +51,25 @@
     },
     "language": {
       "name": "Word Dash",
-      "desc": "Unscramble the letters to form a word."
+      "desc": "Unscramble the letters to form a word.",
+      "reset": "Reset"
+    },
+    "focus": {
+      "name": "Stroop Test",
+      "desc": "Match the color of the text, not the word itself."
+    },
+    "spatial": {
+      "name": "Mirror Image",
+      "desc": "Create the exact mirror reflection of the pattern."
     },
     "start": "Start",
     "next": "Next Game",
     "gameOver": "Game Over!",
     "score": "Score",
     "correct": "Correct!",
-    "wrong": "Wrong!"
+    "wrong": "Wrong!",
+    "round": "Round",
+    "misses": "Misses"
   },
   "results": {
     "title": "Session Complete",
@@ -70,7 +83,10 @@
     "title": "Your Stats",
     "longestStreak": "Longest Streak",
     "performanceHistory": "Performance History",
-    "noData": "Complete a session to see stats"
+    "noData": "Complete a session to see stats",
+    "achievements": "Achievements",
+    "unlocked": "Unlocked",
+    "locked": "Locked"
   },
   "practice": {
     "practiceMode": "Practice Mode",
@@ -93,8 +109,22 @@
     "title": "Settings",
     "language": "Language",
     "darkMode": "Dark Mode",
+    "sound": "Sound Effects",
+    "reminders": "Daily Reminders",
+    "reminderTime": "Time",
     "dangerZone": "Danger Zone",
     "resetProgress": "Reset All Progress",
     "resetConfirm": "Are you sure? This cannot be undone."
+  },
+  "reminders": {
+    "title": "Time to Train!",
+    "body": "Your daily brain-training session is ready."
+  },
+  "colors": {
+    "red": "RED",
+    "blue": "BLUE",
+    "green": "GREEN",
+    "yellow": "YELLOW",
+    "purple": "PURPLE"
   }
 }
